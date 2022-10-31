@@ -14,5 +14,15 @@ export default [
         path: '/edit',
         name: 'Edit',
         component: ()=> import('@/pages/Edit')
+    },
+    {
+        path: '/friends',
+        name: 'Friends',
+        component: ()=> import('@/components/Friends')
+    },
+    {
+        path: '/user',
+        name: 'User',
+        component: ()=> import('@/pages/User')
     }
 ]
