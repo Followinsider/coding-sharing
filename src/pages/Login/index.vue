@@ -12,11 +12,13 @@
                 
                 <input type="text" placeholder="用户名" autocomplete="off" v-model="user.username"/>
                 <input type="email" placeholder="注册邮箱" autocomplete="off" v-model="user.email" @input="checkEmail"/>
-                <a class="getCaptchaText">获取验证码</a>
+                <a v-show="sendAuthCode" class="getCaptchaText" @click="getCaptcha">获取验证码</a>
+                <a v-show="!sendAuthCode" class="getCaptchaTextTime">{{auth_time}}秒</a>
+                
                 <input type="text"  placeholder="邮箱验证码" autocomplete="off" @input="checkCaptcha" v-model="user.code">
                 
                 <input type="password" placeholder="密码" autocomplete="off" v-model="user.password"/>
-                <button class="signUp">Sign Up</button>
+                <button class="signUp" @click.prevent="signUp">Sign Up</button>
             </form>
         </div>
         <div class="form-container sign-in-container">
@@ -32,8 +34,9 @@
                 </div>
                 <input type="email" placeholder="用户名" autocomplete="off"/>
                 <input type="password" placeholder="密码" autocomplete="off"/>
-                <a href="#">忘记密码</a>
-                <button>登 录</button>
+                <!-- <a href="#">忘记密码</a> -->
+                <el-link type="info" @click="forgetPassword">忘记密码</el-link>
+                <button @click.prevent="login">登 录</button>
             </form>
         </div>
         <div class="overlay-container">
@@ -64,8 +67,10 @@ export default {
                 username: '',
                 code: '',
                 password: '',
-                email: ''
-            }
+                email: '',
+            },
+            sendAuthCode: true,
+            auth_time: 0,
         }
     },
     methods: {
@@ -86,6 +91,28 @@ export default {
                 this.user.code = this.user.code.slice(0,5)
             }
             
+        },
+        getCaptcha() {
+            // this.sendAuthCode = false
+            // console.log('获取成功！')
+            this.sendAuthCode = false;
+            this.auth_time = 10;
+            let auth_timetimer =  setInterval(()=>{
+                this.auth_time--;
+                if(this.auth_time <= 0){
+                    this.sendAuthCode = true;
+                    clearInterval(auth_timetimer);
+                }
+            }, 1000);
+        },
+        forgetPassword() {
+            this.$message.warning('怎么就忘啦，目前忘记密码还在开发中,请稍等...')
+        },
+        signUp() {
+            this.$message.success('注册成功！') 
+        },
+        login() {
+            console.log('登录成功！')
         }
     }
 }
@@ -316,6 +343,13 @@ button.ghost {
     text-decoration: underline;
     cursor: pointer;
 }
+.getCaptchaTextTime {
+    padding: 4px 18px;
+    position: absolute;
+    right: 42px;
+    top: 332px;
+}
+
 .signUp {
     margin-top: 16px;
 }
