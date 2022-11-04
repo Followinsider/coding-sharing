@@ -6,6 +6,7 @@
                 <div class="col-4 pt-1">
                     <el-button type="primary" icon="el-icon-share" @click="content = true">Coding知识共享</el-button>
                     <el-button type="success" icon="el-icon-chat-dot-square" @click="content = false">师兄师姐说</el-button>
+                    <el-button type="info" icon="el-icon-question" @click="toQuestion">新建问题</el-button>
                 </div>
                 
                 <div class="col-4 d-flex justify-content-end align-items-center">
@@ -28,7 +29,6 @@
                     </div>
                 </div>
             </div>
-            
         </header>
         
         <div :class="{'view-nav':isMoveDown,'top':!isMoveDown,'container':true}">
@@ -67,7 +67,7 @@ export default {
 	name: "Coding-Charing",
 	data() {
 		return {
-			isMoveDown: true,
+			isMoveDown: false,
 			oldScrollTop: 0,
 			content: true,
 			isLogin: false 
@@ -91,8 +91,8 @@ export default {
 		},
 		// 登录和注册相关
 		login_register() {
-			// this.$router.push('login')
-			this.isLogin = true
+			this.$router.push('login')
+			// this.isLogin = true
 		},
 		// 头像下拉框的选择
 		handleCommand(command) {
@@ -101,6 +101,9 @@ export default {
 			}else if (command === 'logout') {
 				this.isLogin = false
 			}
+		},
+		toQuestion() {
+			this.$router.push('question')
 		}
 	},
 };
@@ -201,16 +204,8 @@ button:focus {
 .container-content {
 	display: flex;
 }
-.aside {
-	width: 25%;
-	height: 600px;
-}
 
 .visiable {
-	/* position: fixed;
-	top: 0;
-	width: 100%;
-	border-bottom: 0; */
 	transform: translateZ(0);
 }
 .view-nav {

@@ -24,5 +24,10 @@ export default [
         path: '/user',
         name: 'User',
         component: ()=> import('@/pages/User')
-    }
+    },
+    {
+        path: '/question',
+        name: 'Question',
+        component: ()=> import('@/pages/Question')
+    },
 ]
