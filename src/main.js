@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import 'element-ui/lib/theme-chalk/index.css'
+import ElementUI from 'element-ui'
+// eslint-disable-next-line no-unused-vars
 import _ from "lodash";
 import './assets/css/bootstrap.css'
 import './assets/css/coding_charing.css'
@@ -8,7 +11,7 @@ import './assets/css/coding_charing.css'
 
 
 Vue.config.productionTip = false
-
+Vue.use(ElementUI)
 import 'element-ui/lib/theme-chalk/index.css';
 import {Alert, Message, Dropdown, DropdownMenu, DropdownItem, Button, Avatar, Link, Collapse, CollapseItem, Input, Select, Option} from 'element-ui'
 Vue.component(Alert.name,Alert)

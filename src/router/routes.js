@@ -16,12 +16,12 @@ export default [
     {
         path: '/login',
         name: 'Login',
-        component: ()=> import('@/pages/Login')
+        component: () => import('@/pages/Login')
     },
     {
         path: '/edit',
         name: 'Edit',
-        component: ()=> import('@/pages/Edit')
+        component: () => import('@/pages/Edit')
     },
     
     {
