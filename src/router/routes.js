@@ -1,9 +1,17 @@
-
+import ContentDetail from '@/pages/Coding_Charing/ContentDetail'
 export default [
     {
         path: '/',
-        name: 'Coding-Charing',
-        component: ()=> import('@/pages/Coding_Charing')
+        name: 'index',
+        component: {render: h => h("router-view")},
+        redirect: '/coding-charing',
+        children: [
+            {
+                path: '/coding-charing',
+                name: 'Coding-Charing',
+                component: () => import('@/pages/Coding_Charing'),
+            },
+        ]
     },
     {
         path: '/login',
@@ -15,11 +23,7 @@ export default [
         name: 'Edit',
         component: ()=> import('@/pages/Edit')
     },
-    {
-        path: '/friends',
-        name: 'Friends',
-        component: ()=> import('@/components/Friends')
-    },
+    
     {
         path: '/user',
         name: 'User',
@@ -29,5 +33,15 @@ export default [
         path: '/question',
         name: 'Question',
         component: ()=> import('@/pages/Question')
+    },
+    {
+        path: '/post',
+        name: 'ContentDetail',
+        component: ContentDetail,
+    },
+    {
+        path: '/friends',
+        name: 'Friends',
+        component: ()=> import('@/components/Friends.vue')
     },
 ]

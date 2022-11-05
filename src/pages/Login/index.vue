@@ -1,5 +1,7 @@
 <template>
     <div :class="[isSignUp? 'right-panel-active':'','container']">
+
+        <!-- 注册模块 -->
         <div class="form-container sign-up-container">
             <form action="#">
                 <h1>创建账号</h1>
@@ -21,6 +23,8 @@
                 <button class="signUp" @click.prevent="signUp">Sign Up</button>
             </form>
         </div>
+
+        <!-- 登录模块 -->
         <div class="form-container sign-in-container">
             <form action="#">
                 <h1>Coding_Charing</h1>
@@ -32,13 +36,15 @@
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                     
                 </div>
-                <input type="email" placeholder="用户名" autocomplete="off"/>
-                <input type="password" placeholder="密码" autocomplete="off"/>
+                <input type="email" placeholder="用户名" autocomplete="off" v-model="user.username"/>
+                <input type="password" placeholder="密码" autocomplete="off" v-model="user.password"/>
                 <!-- <a href="#">忘记密码</a> -->
                 <el-link type="info" @click="forgetPassword">忘记密码</el-link>
                 <button @click.prevent="login">登 录</button>
             </form>
         </div>
+
+        <!-- 登录&注册的切换 -->
         <div class="overlay-container">
             <div class="overlay">
                 <div class="overlay-panel overlay-left">
@@ -61,7 +67,7 @@ export default {
     name: 'Login',
     data() {
         return {
-            isSignUp: true,
+            isSignUp: false,
             timer:null,
             user: {
                 username: '',
@@ -74,6 +80,7 @@ export default {
         }
     },
     methods: {
+        // 校验邮箱格式
         checkEmail() {
             if (this.timer !== null) {
                 clearTimeout(this.timer)
@@ -84,35 +91,75 @@ export default {
                 if (!regex.test(this.user.email)) {
                     this.$message.error('邮箱格式有误，请重新确认！')
                 }
-            }, 1000);
+            }, 1500);
+
         },
+
+        // 验证码长度的限制，方式稍微粗糙点
         checkCaptcha() {
             if (this.user.code.length > 5) {
                 this.user.code = this.user.code.slice(0,5)
             }
             
         },
-        getCaptcha() {
-            // this.sendAuthCode = false
-            // console.log('获取成功！')
-            this.sendAuthCode = false;
-            this.auth_time = 10;
-            let auth_timetimer =  setInterval(()=>{
-                this.auth_time--;
-                if(this.auth_time <= 0){
-                    this.sendAuthCode = true;
-                    clearInterval(auth_timetimer);
-                }
-            }, 1000);
+
+        // 获取验证码的时间控制逻辑 
+        async getCaptcha() {
+            try {
+                await this.$store.dispatch('emailCode',this.user.email);
+                this.sendAuthCode = false;
+                this.auth_time = 10;
+                let auth_timetimer =  setInterval(()=>{
+                    this.auth_time--;
+                    if(this.auth_time <= 0){
+                        this.sendAuthCode = true;
+                        clearInterval(auth_timetimer);
+                    }
+                }, 1000);
+                this.$message.success('已发送验证码到指定邮箱');
+
+            }catch(error) {
+                console.log(error)
+                alert("获取验证码失败,请及时检查");
+            }
         },
+
+        // 忘记密码的逻辑
         forgetPassword() {
             this.$message.warning('怎么就忘啦，目前忘记密码还在开发中,请稍等...')
         },
-        signUp() {
-            this.$message.success('注册成功！') 
+
+        // 点击注册的逻辑
+        async signUp() {
+            if (this.user && this.user.username !== '' && this.user.code !== '' && this.user.password !== '' && this.user.email !== '') {
+                try {
+                    let result = await this.$store.dispatch('userRegister',this.user);
+                    if (result === 'ok') {
+                        this.$message.success('注册成功！');
+                        this.user.username = '';
+                        this.user.code =  '';
+                        this.user.password = '';
+                        this.user.email = '';
+                        this.isSignUp = false;
+                    }else {
+                        this.$message.error(result)
+                    }
+                    
+                }catch(error) {
+                    this.$message.error('请查看验证码是否正确');
+                }
+            }
         },
-        login() {
-            console.log('登录成功！')
+
+        // 点击登录的逻辑
+        async login() {
+            try {
+                const {username,password} = this.user;
+                (username && password) && await this.$store.dispatch('userLogin',{username, password})
+                this.$router.push('/');
+            }catch(error) {
+                console.log(error)
+            }
         }
     }
 }
@@ -121,8 +168,6 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 @import url('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
-
-
 
 h1 {
     font-weight: bold;
