@@ -5,18 +5,45 @@ import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
 // eslint-disable-next-line no-unused-vars
 import _ from "lodash";
+import './assets/css/bootstrap.css'
+import './assets/css/coding_charing.css'
+
+
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 import 'element-ui/lib/theme-chalk/index.css';
-import { Alert, Message, Dropdown, DropdownMenu, DropdownItem, Button } from 'element-ui'
-Vue.component(Alert.name, Alert)
-Vue.component(Dropdown.name, Dropdown)
-Vue.component(DropdownMenu.name, DropdownMenu)
-Vue.component(DropdownItem.name, DropdownItem)
-Vue.component(Button.name, Button)
+import {Alert, Message, Dropdown, DropdownMenu, DropdownItem, Button, Avatar, Link, Collapse, CollapseItem, Input, Select, Option} from 'element-ui'
+Vue.component(Alert.name,Alert)
+Vue.component(Dropdown.name,Dropdown)
+Vue.component(DropdownMenu.name,DropdownMenu)
+Vue.component(DropdownItem.name,DropdownItem)
+Vue.component(Button.name,Button)
+Vue.component(Avatar.name,Avatar)
+Vue.component(Link.name,Link)
+Vue.component(Collapse.name,Collapse)
+Vue.component(CollapseItem.name,CollapseItem)
+Vue.component(Input.name,Input)
+Vue.component(Select.name,Select)
+Vue.component(Option.name,Option)
 
 Vue.prototype.$message = Message
+
+
+// import mavonEditor from 'mavon-editor'
+// Vue.use(mavonEditor)
+
+
+//引入仓库
+import store from '@/store';
+
+
+
 new Vue({
   render: h => h(App),
-  router
+  router,
+  store,
+  beforeCreate() {
+		Vue.prototype.$bus = this //安装全局事件总线，$bus就是当前应用的vm
+	},
 }).$mount('#app')
