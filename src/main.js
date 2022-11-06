@@ -11,7 +11,7 @@ import './assets/css/coding_charing.css'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-import {Alert, Message, Dropdown, DropdownMenu, DropdownItem, Button, Avatar, Link, Collapse, CollapseItem, Input, Select, Option} from 'element-ui'
+import {Alert, Message, Dropdown, DropdownMenu, DropdownItem, Button, Avatar, Link, Collapse, CollapseItem, Input, Select, Option, } from 'element-ui'
 Vue.component(Alert.name,Alert)
 Vue.component(Dropdown.name,Dropdown)
 Vue.component(DropdownMenu.name,DropdownMenu)

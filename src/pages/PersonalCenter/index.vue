@@ -1,7 +1,8 @@
 <template>
     <div>
         <Header/>
-        <div class="main">       
+        <div class="main">
+            <!-- 侧边栏高亮有部分问题，待修复 -->
             <el-container style="height: 600px; border: 1px solid #eee">
                 <el-aside width="200px" style="background-color: white">
                     <el-menu class="el-menu-vertical-demo" default-active="1">
@@ -104,10 +105,10 @@ export default {
     list-style: none;
 }
 
-.ii>li {
+/* .ii>li {
     display: inline;
     padding: 10px;
-}
+} */
 
 .main {
     background-color: #fff;
@@ -153,7 +154,7 @@ export default {
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
-    min-height: 400px;
+    min-height: 598px;
 }
 
 a:hover {

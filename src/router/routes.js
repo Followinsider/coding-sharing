@@ -1,4 +1,5 @@
-import ContentDetail from '@/pages/Coding_Charing/ContentDetail'
+import ContentDetail from '@/pages/Coding_Charing/ContentDetail';
+import NotFound from '@/components/404'
 export default [
     {
         path: '/',
@@ -43,6 +44,7 @@ export default [
         path: '/home',
         name: 'Home',
         component: () => import('@/pages/PersonalCenter'),
+        redirect: '/home/index',
         children: [
             {
                 path: 'index',
@@ -75,5 +77,10 @@ export default [
                 component: () => import('@/pages/PersonalCenter/AnswerHistory')
             }
         ]
-    }	 
+    },
+    {
+        path: "*",
+        name: '404',
+        component: NotFound,
+    }
 ]
