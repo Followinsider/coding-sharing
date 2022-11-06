@@ -114,4 +114,6 @@
   .blog-footer p:last-child {
     margin-bottom: 0;
   }
-  
+  button:focus {
+    outline: 0;
+  }

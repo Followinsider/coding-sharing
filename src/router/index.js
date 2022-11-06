@@ -24,11 +24,12 @@ router.beforeEach((to, from, next) => {
     
     if (to.path !== from.path) {
         nprogress.start()
+        next()
     }
-    if (to.path === '/edit') {
+    // if (to.path === '/edit') {
 
-    }
-    next()
+    // }
+    // next()
 })
 
 router.afterEach(()=> {

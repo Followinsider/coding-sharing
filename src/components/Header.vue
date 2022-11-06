@@ -10,7 +10,7 @@
             
             <div class="col-4 d-flex justify-content-end align-items-center">
                 <div class="create_login">
-                    <el-dropdown split-button type="primary" @click="toEdit">
+                    <el-dropdown split-button type="primary" @click="toEdit" @command="jumpMine">
                     创作者中心
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item>我的中心</el-dropdown-item>
@@ -55,28 +55,34 @@ export default {
     methods: {
         // 编辑内容
 		toEdit() {
-            if (this.userInfo.id) {
-                this.$router.push('edit')
+            if (this.userInfo && this.userInfo.id) {
+                // console.log(this.$route)
+                this.$router.push('/edit')
             }else {
                 this.$message.info('请先登录')
             }
 		},
 		// 登录和注册相关
 		login_register() {
-			this.$router.push('login')
+			this.$router.push('/login')
 			// this.isLogin = true
 		},
 		// 头像下拉框的选择
 		handleCommand(command) {
 			if (command === 'user') {
-				this.$router.push('user')
+				this.$router.push('/home')
 			}else if (command === 'logout') {
                 localStorage.removeItem('TOKEN');
 				this.isLogin = false
 			}
 		},
         toQuestion() {
-			this.$router.push('question')
+            if (this.userInfo && this.userInfo.id) {
+                this.$router.push('/question')
+            }else {
+                this.$message.info('请先登录')
+            }
+			
 		},
         jumpSharing() {
             this.$router.push('/')
@@ -84,9 +90,19 @@ export default {
         jumpFriends() {
             this.$router.push('/friends')
         },
+        jumpMine() {
+            this.$router.push('/home')
+        },
+        async getUserMsg() {
+            try {
+                await this.$store.dispatch('userInfo')
+            }catch(error) {
+                console.log('未登录')
+            }
+        }
     },
     mounted() {
-        this.$store.dispatch('userInfo')
+        this.getUserMsg();
     },
     watch: {
         userInfo() {
@@ -102,9 +118,6 @@ export default {
 .visiable {
 	transform: translateZ(0);
 }
-button:focus {
-	outline: 0;
-}
 .avatar {
 	margin-left: 12px;
 }
@@ -112,5 +125,8 @@ button:focus {
 	display: flex;
 	justify-content: center;
     align-content: center;
+}
+button:focus {
+	outline: 0;
 }
 </style>

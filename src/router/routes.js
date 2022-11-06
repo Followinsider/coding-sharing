@@ -25,14 +25,9 @@ export default [
     },
     
     {
-        path: '/user',
-        name: 'User',
-        component: ()=> import('@/pages/User')
-    },
-    {
         path: '/question',
         name: 'Question',
-        component: ()=> import('@/pages/Question')
+        component: () => import('@/pages/Question')
     },
     {
         path: '/post',
@@ -44,4 +39,41 @@ export default [
         name: 'Friends',
         component: ()=> import('@/components/Friends.vue')
     },
+    {
+        path: '/home',
+        name: 'Home',
+        component: () => import('@/pages/PersonalCenter'),
+        children: [
+            {
+                path: 'index',
+                name: 'welcome',
+                component: () => import('@/pages/PersonalCenter/Welcome')
+            },
+            {
+                path: 'showinfo',
+                name: 'showinfo',
+                component: () => import('@/pages/PersonalCenter/BasicMsg')
+            },
+            {
+                path: 'countcontrol',
+                name: 'countcontrol',
+                component: () => import('@/pages/PersonalCenter/Countcontrol')
+            },
+            {
+                path: 'questioncollection',
+                name: 'questioncollection',
+                component: () => import('@/pages/PersonalCenter/QuestionCollection')
+            },
+            {
+                path: 'pagecollection',
+                name: 'pagecollection',
+                component: () => import('@/pages/PersonalCenter/PageCollection')
+            },
+            {
+                path: 'answerHistory',
+                name: 'answerHistory',
+                component: () => import('@/pages/PersonalCenter/AnswerHistory')
+            }
+        ]
+    }	 
 ]

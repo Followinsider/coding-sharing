@@ -9,10 +9,8 @@ import './assets/css/bootstrap.css'
 import './assets/css/coding_charing.css'
 
 
-
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-import 'element-ui/lib/theme-chalk/index.css';
 import {Alert, Message, Dropdown, DropdownMenu, DropdownItem, Button, Avatar, Link, Collapse, CollapseItem, Input, Select, Option} from 'element-ui'
 Vue.component(Alert.name,Alert)
 Vue.component(Dropdown.name,Dropdown)
@@ -30,8 +28,6 @@ Vue.component(Option.name,Option)
 Vue.prototype.$message = Message
 
 
-// import mavonEditor from 'mavon-editor'
-// Vue.use(mavonEditor)
 
 
 //引入仓库
