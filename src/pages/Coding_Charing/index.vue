@@ -6,19 +6,7 @@
         <Header :isMoveDown="isMoveDown"></Header>
 
 		<!-- 文章标签 -->
-        <div :class="{'view-nav':isMoveDown,'top':!isMoveDown,'container':true}">
-            <div class="nav-scroller py-1 mb-2">
-                <nav class="nav d-flex justify-content-between">
-                    <a class="p-2 text-muted" href="javascript:void(0)">综合</a>
-                    <a class="p-2 text-muted" href="javascript:void(0)">前端</a>
-                    <a class="p-2 text-muted" href="javascript:void(0)">后端</a>
-                    <a class="p-2 text-muted" href="javascript:void(0)">移动端</a>
-                    <a class="p-2 text-muted" href="javascript:void(0)">算法</a>
-                    <a class="p-2 text-muted" href="javascript:void(0)">UI设计</a>
-                    <a class="p-2 text-muted" href="javascript:void(0)">校内课程</a>
-                </nav>
-            </div>
-        </div>
+		<ContentTag :isMoveDown="isMoveDown"/>
 
 		<main role="main" class="container">
 			<Content/>
@@ -26,7 +14,7 @@
 
 		<!-- 知识共享最后给一句鸡汤 -->
 		<footer class="blog-footer">
-			<p>哈哈哈哈哈哈哈</p>
+			<p>好看的在最后</p>
 			<p>
 				<a href="javascript:void(0)">回到顶部</a>
 			</p>
@@ -36,37 +24,18 @@
 
 <script>
 import Content from '../../components/Content.vue';
-// import Friends from '../../components/Friends.vue';
 import Header from '../../components/Header.vue';
+import ContentTag from '../../components/ContentTag.vue';
+import header from '@/mixin/header'
 export default {
 	name: "Coding-Charing",
+	mixins: [header],
 	data() {
 		return {
-			isMoveDown: false,
-			oldScrollTop: 0,
-			content: true,
+			
 		}
 	},
-	components: {Content, Header},
-	computed:{
-
-	},
-	mounted() {
-		
-	},
-	methods: {
-		// 控制滚动轮
-		handleScroll(e) {
-			let scrollStep = e.target.scrollTop - this.oldScrollTop;
-			this.oldScrollTop = e.target.scrollTop;
-			if (scrollStep > 0) {
-				this.isMoveDown = true
-			} else {
-				this.isMoveDown = false
-			}
-		},
-		
-	},
+	components: {Content, Header, ContentTag},
 };
 </script>
 

@@ -16,11 +16,10 @@
             <div class="right">
                 <div class="right_tag">
                     <span>文章所属分类</span>
-                    <el-select v-model="tags" multiple placeholder="请选择">
+                    <el-select v-model="tags" placeholder="请选择">
                         <el-option
                         v-for="item in ttags"
                         :key="item.id"
-                        :label="item.name"
                         :value="item.name">
                         </el-option>
                     </el-select>
@@ -90,7 +89,7 @@ export default {
                 preview: true, // 预览
             },
             title:'',
-            tags: [],
+            tags: '',
         }
     },
     methods: {
@@ -98,29 +97,41 @@ export default {
             this.$router.push('user')
         },
         async publish() {
-            let {tblogbodyParam,title,tags,userId} = this;
+            let object = {};
+            object.ttags = [];
+            object.tblogbodyParam = this.tblogbodyParam;
+            object.title = this.title;
+            object.ttags = this.ttags.filter(item => item.name == this.tags);
+            object.userId = this.userId;
             try {
-                (tblogbodyParam && title && tags && userId) && (await this.$store.dispatch('publish',{tblogbodyParam, title, tags, userId}))
-                // this.$message.success('发布成功！')
+                if (object.tblogbodyParam && object.title && object.ttags.length > 0 && object.userId) {
+                    await this.$store.dispatch('publish',object);
+                    this.$message.success('发布成功！');
+                    object = {}
+                    this.tblogbodyParam.content = '';
+                    this.contentHtml = '';
+                    this.title = '';
+                    this.tags = '';
+                }else {
+                    this.$message.error('请检查是否有标题 | 文章所属分类未填写');
+                }
             }catch(error) {
                 console.log(error)
             }
         },
         change: _.debounce(function(value, render) {
             this.tblogbodyParam.contentHtml = render;
-            console.log(this.tblogbodyParam.contentHtml);
-            console.log(this.userId);
         },800),
         save(value,render) {
             this.tblogbodyParam.content = value;
             this.tblogbodyParam.contentHtml = render;
-            this.$message.success('保存成功')
+            this.$message.success('保存成功');
         },
         savaDrafts() {
-            this.$message.success('保存草稿成功')
+            this.$message.success('保存草稿成功');
         },
         handleCommand() {
-            console.log(123)
+            this.$router.push('/home');
         }
     },
     mounted() {
@@ -131,7 +142,7 @@ export default {
         ...mapState({
             ttags: state => state.article.tagList,
             userId: state => state.user.userInfo.user.id
-        })
+        }),
     }
 }
 </script>

@@ -89,7 +89,7 @@
    * Blog posts
    */
   .blog-post {
-    margin-bottom: 4rem;
+    margin-bottom: 0.4rem;
   }
   .blog-post-title {
     margin-top: 1.6rem;
@@ -114,4 +114,6 @@
   .blog-footer p:last-child {
     margin-bottom: 0;
   }
-  
+  button:focus {
+    outline: 0;
+  }

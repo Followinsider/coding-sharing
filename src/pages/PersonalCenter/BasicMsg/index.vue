@@ -5,7 +5,9 @@
             <h3>基本信息</h3>
             <hr>
             <el-descriptions :column="1" border>
-                <el-descriptions-item v-for="i in userInfo" :label="i.label" v-model="i.value">
+                <!-- <el-descriptions-item v-for="i in userInfo" :label="i.label" v-model="i.value"> -->
+                <el-descriptions-item v-for="i in userInfo" :key="i.label" v-model="i.value">
+                    <span class="message" v-show="!i.edit">{{ i.label }}</span>
                     <span class="message" v-show="!i.edit">{{ i.value }}</span>
                     <span @click="edit(i)" v-show="!i.edit"><i class="el-icon-edit edit">编辑</i></span>
                     <span v-show="i.edit">
@@ -18,8 +20,8 @@
         <div>
             <h3>教育信息</h3>
             <hr>
-            <el-descriptions :column="1" border>
-                <el-descriptions-item v-for="i in userStudy" :label="i.label" v-model="i.value">
+            <el-descriptions :column="1" border>key
+                <el-descriptions-item v-for="i in userStudy" :key="i.label" v-model="i.value">
                     <span class="message" v-show="!i.edit">{{ i.value }}</span>
                     <span @click="edit(i)" v-show="!i.edit"><i class="el-icon-edit edit">编辑</i></span>
                     <span v-show="i.edit">
@@ -33,7 +35,7 @@
             <h3>工作信息</h3>
             <hr>
             <el-descriptions :column="1" border>
-                <el-descriptions-item v-for="i in userWork" :label="i.label" v-model="i.value">
+                <el-descriptions-item v-for="i in userWork" :key="i.label" v-model="i.value">
                     <span class="message" v-show="!i.edit">{{ i.value }}</span>
                     <span @click="edit(i)" v-show="!i.edit"><i class="el-icon-edit edit">编辑</i></span>
                     <span v-show="i.edit">
@@ -48,7 +50,7 @@
     
 <script>
 export default {
-    // eslint-disable-next-line vue/multi-word-component-names
+    
     name: "showinfo",
     data() {
         return {
@@ -86,7 +88,7 @@ export default {
     
 <style scoped>
 .message {
-    width: 20em;
+    width: 10em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

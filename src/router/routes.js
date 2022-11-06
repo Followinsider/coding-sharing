@@ -1,4 +1,5 @@
-import ContentDetail from '@/pages/Coding_Charing/ContentDetail'
+import ContentDetail from '@/pages/Coding_Charing/ContentDetail';
+import NotFound from '@/components/404'
 export default [
     {
         path: '/',
@@ -25,14 +26,9 @@ export default [
     },
     
     {
-        path: '/user',
-        name: 'User',
-        component: ()=> import('@/pages/User')
-    },
-    {
         path: '/question',
         name: 'Question',
-        component: ()=> import('@/pages/Question')
+        component: () => import('@/pages/Question')
     },
     {
         path: '/post',
@@ -44,4 +40,47 @@ export default [
         name: 'Friends',
         component: ()=> import('@/components/Friends.vue')
     },
+    {
+        path: '/home',
+        name: 'Home',
+        component: () => import('@/pages/PersonalCenter'),
+        redirect: '/home/index',
+        children: [
+            {
+                path: 'index',
+                name: 'welcome',
+                component: () => import('@/pages/PersonalCenter/Welcome')
+            },
+            {
+                path: 'showinfo',
+                name: 'showinfo',
+                component: () => import('@/pages/PersonalCenter/BasicMsg')
+            },
+            {
+                path: 'countcontrol',
+                name: 'countcontrol',
+                component: () => import('@/pages/PersonalCenter/Countcontrol')
+            },
+            {
+                path: 'questioncollection',
+                name: 'questioncollection',
+                component: () => import('@/pages/PersonalCenter/QuestionCollection')
+            },
+            {
+                path: 'pagecollection',
+                name: 'pagecollection',
+                component: () => import('@/pages/PersonalCenter/PageCollection')
+            },
+            {
+                path: 'answerHistory',
+                name: 'answerHistory',
+                component: () => import('@/pages/PersonalCenter/AnswerHistory')
+            }
+        ]
+    },
+    {
+        path: "*",
+        name: '404',
+        component: NotFound,
+    }
 ]
