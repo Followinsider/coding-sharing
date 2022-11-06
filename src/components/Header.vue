@@ -70,7 +70,7 @@ export default {
 		// 头像下拉框的选择
 		handleCommand(command) {
 			if (command === 'user') {
-				this.$router.push('/home')
+				this.$router.push('/home/index')
 			}else if (command === 'logout') {
                 localStorage.removeItem('TOKEN');
 				this.isLogin = false
