@@ -38,7 +38,7 @@ export default [
     {
         path: '/friends',
         name: 'Friends',
-        component: ()=> import('@/components/Friends.vue')
+        component: ()=> import('@/pages/Friends')
     },
     {
         path: '/home',
