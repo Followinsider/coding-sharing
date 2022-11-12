@@ -7,9 +7,9 @@
                 <h1>创建账号</h1>
                 <span>使用其他方式注册</span>
                 <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                    <a @click="waitCoding" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a @click="waitCoding" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a @click="waitCoding" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 
                 <input type="text" placeholder="用户名" autocomplete="off" v-model="user.username"/>
@@ -30,11 +30,10 @@
                 <h1>Coding_Charing</h1>
                 
                 <div class="social-container">
-                    <span>其他登录方式</span>
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-                    
+                    <!-- <span>其他登录方式</span>
+                    <a href="javascript:void(0)" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="javascript:void(0)" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="javascript:void(0)" class="social"><i class="fab fa-linkedin-in"></i></a> -->
                 </div>
                 <input type="email" placeholder="用户名" autocomplete="off" v-model="user.username"/>
                 <input type="password" placeholder="密码" autocomplete="off" v-model="user.password"/>
@@ -81,6 +80,9 @@ export default {
         }
     },
     methods: {
+        waitCoding() {
+            this.$message.info('此功能暂未开放,稍等哈')
+        },
         // 校验邮箱格式
         checkEmail() {
             if (this.timer !== null) {
@@ -106,22 +108,26 @@ export default {
 
         // 获取验证码的时间控制逻辑 
         async getCaptcha() {
-            try {
-                await this.$store.dispatch('emailCode',this.user.email);
-                this.sendAuthCode = false;
-                this.auth_time = 10;
-                let auth_timetimer =  setInterval(()=>{
-                    this.auth_time--;
-                    if(this.auth_time <= 0){
-                        this.sendAuthCode = true;
-                        clearInterval(auth_timetimer);
-                    }
-                }, 1000);
-                this.$message.success('已发送验证码到指定邮箱');
-
-            }catch(error) {
-                console.log(error)
-                alert("获取验证码失败,请及时检查");
+            if (this.user.username !== '' && this.user.email !== '') {
+                try {
+                    await this.$store.dispatch('emailCode',this.user.email);
+                    this.sendAuthCode = false;
+                    this.auth_time = 15;
+                    let auth_timetimer =  setInterval(()=>{
+                        this.auth_time--;
+                        if(this.auth_time <= 0){
+                            this.sendAuthCode = true;
+                            clearInterval(auth_timetimer);
+                        }
+                    }, 1000);
+                    this.$message.success('已发送验证码到指定邮箱');
+    
+                }catch(error) {
+                    console.log(error)
+                    alert("获取验证码失败,请及时检查");
+                }
+            }else {
+                this.$message.error('请检查个人信息是否填写完整')
             }
         },
 
@@ -132,7 +138,7 @@ export default {
 
         // 点击注册的逻辑
         async signUp() {
-            if (this.user && this.user.username !== '' && this.user.code !== '' && this.user.password !== '' && this.user.email !== '') {
+            if (this.user.username !== '' && this.user.code !== '' && this.user.password !== '' && this.user.email !== '') {
                 try {
                     let result = await this.$store.dispatch('userRegister',this.user);
                     if (result === 'ok') {
@@ -149,17 +155,23 @@ export default {
                 }catch(error) {
                     this.$message.error('请查看验证码是否正确');
                 }
+            }else {
+                this.$message.error('请检查注册信息是否填写完整')
             }
         },
 
         // 点击登录的逻辑
         async login() {
-            try {
-                const {username,password} = this.user;
-                (username && password) && await this.$store.dispatch('userLogin',{username, password})
-                this.$router.push('/');
-            }catch(error) {
-                console.log(error)
+            if (this.user.username !== '' && this.user.password !== '') {
+                try {
+                    const {username,password} = this.user;
+                    (username && password) && await this.$store.dispatch('userLogin',{username, password})
+                    this.$router.push('/');
+                }catch(error) {
+                    this.$message.error(error)
+                }
+            }else {
+                this.$message.error('请检查登录信息是否填写完整')
             }
         }
     }
@@ -232,6 +244,7 @@ a {
     margin: 0 5px;
     height: 40px;
     width: 40px;
+    cursor: pointer;
 }
 
 .form-container input {

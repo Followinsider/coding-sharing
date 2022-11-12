@@ -35,10 +35,11 @@ export const reqUserInfo = ()=>{
 }
 
 // 获取文章内容列表接口
-export const reqArticleList = (page = 1, limit = 10)=>{
+export const reqArticleList = (page, limit, bodyParams)=>{
     return requests({
         url: `/blog/list/${page}/${limit}`,
-        method: 'post'
+        method: 'post',
+        data: bodyParams
     })
 }
 
@@ -64,5 +65,38 @@ export const reqTag = () => {
     return requests({
         url: '/blog/tag',
         method: 'get',
+    })
+}
+
+// 获取点赞博客的接口
+export const starBlog = (id) => {
+    return requests({
+        url: `/blog/starts/${id}`,
+        method: 'post'
+    })
+}
+
+// 获取在看博客的接口
+export const viewBlog = (id) => {
+    return requests({
+        url: `/blog/view/${id}`,
+        method: 'post'
+    })
+}
+
+// 获取问题内容列表接口
+export const questionList = (page, limit) => {
+    return requests({
+        url: `/blog/question/list/${page}/${limit}`,
+        method: 'get'
+    })
+}
+
+// 获取提问问题的接口
+export const askQuestion = (obj) => {
+    return requests({
+        url: '/blog/question/ask',
+        method: 'put',
+        data: obj
     })
 }

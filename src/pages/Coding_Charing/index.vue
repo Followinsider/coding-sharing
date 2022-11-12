@@ -14,19 +14,17 @@
 
 		<!-- 知识共享最后给一句鸡汤 -->
 		<footer class="blog-footer">
-			<p>好看的在最后</p>
-			<p>
-				<a href="javascript:void(0)">回到顶部</a>
-			</p>
+			<Pagination/>
 		</footer>
 	</div>
 </template>
 
 <script>
-import Content from '../../components/Content.vue';
+import Content from './Content.vue';
 import Header from '../../components/Header.vue';
-import ContentTag from '../../components/ContentTag.vue';
-import header from '@/mixin/header'
+import ContentTag from './ContentTag.vue';
+import header from '@/mixin/header';
+import Pagination from '../../components/Pagination.vue';
 export default {
 	name: "Coding-Charing",
 	mixins: [header],
@@ -35,7 +33,7 @@ export default {
 			
 		}
 	},
-	components: {Content, Header, ContentTag},
+	components: {Content, Header, ContentTag, Pagination, },
 };
 </script>
 
@@ -58,10 +56,6 @@ ul {
 
 .el-icon-arrow-down {
 	font-size: 12px;
-}
-
-.login {
-	margin-left: 30px;
 }
 .content-box {
 	display: flex;
@@ -122,7 +116,8 @@ ul {
 }
 
 .action {
-	display: flex;
+	/* display: flex; */
+	cursor: pointer;
 	border: 1px solid rgb(237, 238, 239);
 }
 
@@ -145,9 +140,6 @@ ul {
 	display: flex;
 }
 
-/* .visiable {
-	transform: translateZ(0);
-} */
 .view-nav {
 	position: fixed;
 	box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
@@ -180,9 +172,8 @@ ul {
 .el-dropdown {
 	vertical-align: 0;
 }
-
 .scroll {
-	overflow: scroll;
+	overflow-y: scroll;
 	height: 100vh;
 }
 </style>

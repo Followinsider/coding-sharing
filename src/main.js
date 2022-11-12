@@ -29,10 +29,11 @@ Vue.prototype.$message = Message
 
 
 
-
 //引入仓库
 import store from '@/store';
 
+// 引入第三方icon
+// import "./assets/icon/iconfont.css";
 
 
 new Vue({

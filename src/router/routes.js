@@ -1,5 +1,5 @@
 import ContentDetail from '@/pages/Coding_Charing/ContentDetail';
-import NotFound from '@/components/404'
+import NotFound from '@/pages/404'
 export default [
     {
         path: '/',

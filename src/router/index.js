@@ -26,10 +26,6 @@ router.beforeEach((to, from, next) => {
         nprogress.start()
         next()
     }
-    // if (to.path === '/edit') {
-
-    // }
-    // next()
 })
 
 router.afterEach(()=> {

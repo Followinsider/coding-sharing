@@ -73,7 +73,8 @@ export default {
 				this.$router.push('/home/index')
 			}else if (command === 'logout') {
                 localStorage.removeItem('TOKEN');
-				this.isLogin = false
+				this.isLogin = false;
+                this.$message.success('退出成功');
 			}
 		},
         toQuestion() {
@@ -128,5 +129,8 @@ export default {
 }
 button:focus {
 	outline: 0;
+}
+.login {
+	margin-left: 30px;
 }
 </style>

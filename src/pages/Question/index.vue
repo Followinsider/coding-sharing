@@ -3,33 +3,72 @@
         <el-page-header @back="goBack" content="主页面" style="font-size: 36px;">
         </el-page-header>
         <div class="main">
-            <h2 style="margin-top: 30px;margin-bottom: 10px;">提问</h2>
+            <div class="main_question">
+                <span style="font-size: 26px;margin-right: 12px;">提问</span>
+                <span>
+                    <el-select v-model="tagId" placeholder="请选择问题分类">
+                        <el-option
+                            v-for="item in ttags"
+                            :key="item.id"
+                            :value="item.name">
+                        </el-option>
+                    </el-select>
+                </span>
+            </div>
+            
             <div class="title">
-                <el-input type="text" style="margin-top: 20px;width: 90%;" placeholder="请输入问题" v-model="question_title"
-                    maxlength="100" show-word-limit>
-                </el-input>
                 <div>
-                    <textarea class="description" placeholder="添加问题描述（选填）" v-model="question_description"></textarea>
+                    <textarea class="description" placeholder="添加问题描述（必填）" v-model="content"></textarea>
                 </div>
             </div>
-            <el-button type="primary" plain>发布<i class="el-icon-upload el-icon--right"></i></el-button>
+            <el-button type="primary" plain @click="publish_question">发布<i class="el-icon-upload el-icon--right"></i></el-button>
         </div>
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: 'Question',
     data() {
         return {
-            question_title: '',
-            question_description: ''
+            content: '',
+            tagId: '',
         }
     },
     methods: {
         goBack() {
-            this.$router.push('/')
-        }
+            if (this.content !== '') {
+                this.$message.info('此时还有问题描述未发布')
+            }else {
+                this.$router.push('/')
+            }
+        },
+        async publish_question() {
+            let obj = {};
+            obj.content = this.content;
+            obj.tagId = this.tagId;
+            obj.userId = this.userId;
+            try {
+                await this.$store.dispatch('askQuestion',obj);
+                this.$message.success('发布成功');
+                this.content = '';
+                this.tagId = '';
+            }catch (error) {
+                console.log(error);
+            }
+        },
+
+    },
+    mounted() {
+        this.$store.dispatch('getTag')
+        this.$store.dispatch('userInfo')
+    },
+    computed: {
+        ...mapState({
+            ttags: state => state.article.tagList,
+            userId: state => state.user.userInfo.user.id
+        })
     }
 }
 </script>
@@ -98,5 +137,9 @@ export default {
 
 .description::-ms-input-placeholder {
     color: #C0C4CC;
+}
+.main_question {
+    display: flex;
+    justify-content: center;
 }
 </style>
