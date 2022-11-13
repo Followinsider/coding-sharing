@@ -1,4 +1,4 @@
-import {reqArticleList, publishBlog, reqTag, starBlog, viewBlog, reqArticle, } from '@/api';
+import {reqArticleList, publishBlog, reqTag, starBlog, viewBlog, reqArticle, saveBlog, } from '@/api';
 
 const state = {
     articleList: [],
@@ -20,6 +20,15 @@ const actions = {
     // 发表博客
     async publish({commit}, data) {
         let result = await publishBlog(data);
+        if (result.code == 20000) {
+            return 'ok';
+        }else {
+            return Promise.reject(new Error('faile'));
+        }
+    },
+
+    async saveBlog({commit},data) {
+        let result = await saveBlog(data);
         if (result.code == 20000) {
             return 'ok';
         }else {

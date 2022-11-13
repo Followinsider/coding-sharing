@@ -28,11 +28,6 @@ import Pagination from '../../components/Pagination.vue';
 export default {
 	name: "Coding-Charing",
 	mixins: [header],
-	data() {
-		return {
-			
-		}
-	},
 	components: {Content, Header, ContentTag, Pagination, },
 };
 </script>

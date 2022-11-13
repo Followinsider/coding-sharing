@@ -52,13 +52,23 @@ export const reqArticle = (id)=>{
 }
 
 // 发表博客的接口
-export const publishBlog = data => {
+export const publishBlog = (data) => {
     return requests({
         url: '/blog/publish',
         method: 'put',
         data
     })
 }
+
+// 保存草稿的接口
+export const saveBlog = (data) => {
+    return requests({
+        url: '/blog/nopublish',
+        method: 'put',
+        data
+    })
+}
+
 
 // 获取用于分类的博客标签的接口
 export const reqTag = () => {

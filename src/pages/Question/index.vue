@@ -21,7 +21,7 @@
                     <textarea class="description" placeholder="添加问题描述（必填）" v-model="content"></textarea>
                 </div>
             </div>
-            <el-button type="primary" plain @click="publish_question">发布<i class="el-icon-upload el-icon--right"></i></el-button>
+            <el-button type="primary" plain @click="publish_question" class="publish_question">发布<i class="el-icon-upload el-icon--right"></i></el-button>
         </div>
     </div>
 </template>
@@ -92,8 +92,6 @@ export default {
 
 .title {
     margin: 0 auto;
-    margin-bottom: 10px;
-    /* border: 1px solid #aaa; */
     height: 280px;
     width: 600px;
 }
@@ -106,7 +104,7 @@ export default {
     box-sizing: border-box;
     font-size: 14px;
     color: #606266;
-    height: 180px;
+    height: 280px;
     line-height: 40px;
     padding: 0 15px;
     width: 90%;
@@ -141,5 +139,9 @@ export default {
 .main_question {
     display: flex;
     justify-content: center;
+    margin: 10px 0px;
+}
+.publish_question {
+    margin-top: 40px;
 }
 </style>

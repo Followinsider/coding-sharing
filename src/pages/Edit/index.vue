@@ -2,6 +2,7 @@
     <div class="editor">
         <div class="info">
             <div class="left">
+                <span class="icon_back" @click="goBack"><i class="el-icon-arrow-left"></i></span>
                 <el-input 
                     v-model="title" 
                     placeholder="输入文章标题..." 
@@ -96,42 +97,71 @@ export default {
         toUser() {
             this.$router.push('user')
         },
-        async publish() {
+        collectData() {
             let object = {};
             object.ttags = [];
             object.tblogbodyParam = this.tblogbodyParam;
             object.title = this.title;
             object.ttags = this.ttags.filter(item => item.name == this.tags);
             object.userId = this.userId;
+            return object;
+        },
+        clearData() {
+            this.tblogbodyParam.content = '';
+            this.contentHtml = '';
+            this.title = '';
+            this.tags = '';
+        },
+        async publish() {
+            let object = this.collectData();
             try {
-                if (object.tblogbodyParam && object.title && object.ttags.length > 0 && object.userId) {
+                if (object.tblogbodyParam.content !== '' && object.title && object.ttags.length > 0 && object.userId) {
                     await this.$store.dispatch('publish',object);
                     this.$message.success('发布成功！');
-                    object = {}
-                    this.tblogbodyParam.content = '';
-                    this.contentHtml = '';
-                    this.title = '';
-                    this.tags = '';
+                    this.clearData();
                 }else {
-                    this.$message.error('请检查是否有标题 | 文章所属分类未填写');
+                    this.$message.error('请检查是否填写内容/标题/文章所属分类');
                 }
             }catch(error) {
                 console.log(error)
             }
         },
+
         change: _.debounce(function(value, render) {
             this.tblogbodyParam.contentHtml = render;
         },800),
+
         save(value,render) {
             this.tblogbodyParam.content = value;
             this.tblogbodyParam.contentHtml = render;
             this.$message.success('保存成功');
         },
-        savaDrafts() {
-            this.$message.success('保存草稿成功');
+
+        async savaDrafts() {
+            let object = this.collectData();
+            try {
+                if (object.tblogbodyParam.content !== '' && object.title && object.ttags.length > 0 && object.userId) {
+                    await this.$store.dispatch('saveBlog',object);
+                    this.$message.success('保存草稿成功');
+                    this.clearData();
+                }else {
+                    this.$message.error('请检查是否填写内容/标题/文章所属分类');
+                }
+            }catch(error) {
+                console.log(error)
+            }
         },
+
         handleCommand() {
             this.$router.push('/home');
+        },
+        
+        goBack() {
+            if (this.title !== '' || this.tblogbodyParam.content !== '') {
+                this.$message.info('离开之前请保存草稿')
+            }else {
+                this.$router.push('/')
+            }
         }
     },
     mounted() {
@@ -161,6 +191,7 @@ export default {
 .left {
     width: 40%;
     line-height: 80px;
+    display: flex;
 }
 .right {
     width: 60%;
@@ -186,5 +217,12 @@ button:focus {
 }
 .dropdown {
     display: flex;
+}
+.icon_back {
+    font-size: 25px;
+    margin-right: 20px;
+}
+.icon_back:hover {
+    cursor: pointer;
 }
 </style>

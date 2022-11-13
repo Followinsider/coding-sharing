@@ -20,7 +20,7 @@
 								</ul>
 							</div>
 							<div class="info-row title-row">
-								<router-link :to="{name: 'ContentDetail', params: {id: a.id, name: a.username, time: a.gmtCreate, title: a.title}}" class="info-title"><h3>{{a.title}}</h3></router-link>
+								<a @click="jumpToContentDetail(a)" class="info-title"><h3>{{a.title}}</h3></a>
 							</div>
 							<div class="info-row abstract-row">
 								<span>
@@ -171,6 +171,10 @@ export default {
 			this.page = page;
 			this.limit = limit;
 			this.getArticleList(this.page, this.limit, this.tagParams);
+		},
+		jumpToContentDetail(a) {
+			localStorage.setItem('contentInfo', JSON.stringify({name: a.username, time: a.gmtCreate, title: a.title}));
+			this.$router.push({name: 'ContentDetail', query: {id: a.id}});
 		}
     },
 	mounted() {
@@ -201,8 +205,6 @@ export default {
 	vertical-align: text-bottom;
 }
 
-
-
 .tag span:hover{
 	cursor: pointer;
 	text-decoration: underline;
@@ -214,6 +216,11 @@ export default {
 }
 .eyes {
 	color: gray;
+}
+
+.info-title:hover{
+	cursor: pointer;
+	text-decoration: underline;
 }
 </style>
 
