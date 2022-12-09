@@ -7,8 +7,6 @@
                     <div class="blog-post">
                         <h2 class="blog-post-title">{{contentInfo.title}}</h2>
                         <p class="blog-post-meta">{{contentInfo.time}} <a href="https://github.com/Followinsider" target="_blank">{{contentInfo.name}}</a></p>
-
-
                         <template>
                             <el-skeleton :loading="loading"/>
                             <div v-html="pageHTML" v-show="!loading"></div>
@@ -22,7 +20,7 @@
                 </div>
 
                 <aside class="col-md-4 blog-sidebar">
-                    <div class="p-4">
+                    <div class="aside_introduce">
                         <h4 class="font-italic">往期文章</h4>
                         <ol class="list-unstyled mb-0">
                             <li><a href="javascript:void(0)">March 2014</a></li>
@@ -30,7 +28,7 @@
                         </ol>
                     </div>
 
-                    <div class="p-4">
+                    <div class="aside_introduce">
                         <h4 class="font-italic">联系方式</h4>
                         <ol class="list-unstyled">
                             <li><a href="javascript:void(0)">GitHub</a></li>
@@ -40,7 +38,7 @@
                     </div>
 
                     <!-- 后续 粘滞效果 需要再完善 -->
-                    <div class="p-4">
+                    <div class="aside_content">
                         <nav class="article-catalog">
                             <div class="catalog-title">
                                 目录
@@ -147,6 +145,8 @@ export default {
     background: #fff;
     border-radius: 4px;
     border: 1px solid gray;
+    overflow: auto;
+    height: 85vh;
 }
 .catalog-title {
     font-weight: 500;
@@ -184,5 +184,12 @@ export default {
 }
 .active {
     color: #007bff;
+}
+.aside_introduce {
+    padding: 0.5rem;
+}
+.aside_content {
+    position: sticky;
+    top: 78px;
 }
 </style>

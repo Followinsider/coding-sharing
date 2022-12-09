@@ -70,7 +70,7 @@ export default {
 		// 头像下拉框的选择
 		handleCommand(command) {
 			if (command === 'user') {
-				this.$router.push('/home/index')
+                this.$router.push('/home/index')
 			}else if (command === 'logout') {
                 localStorage.removeItem('TOKEN');
 				this.isLogin = false;
@@ -92,7 +92,11 @@ export default {
             this.$router.push('/friends')
         },
         jumpMine() {
-            this.$router.push('/home')
+            if (this.userInfo && this.userInfo.id) {
+                this.$router.push('/home/index')
+            }else {
+                this.$message.info('请先登录')
+            }
         },
         async getUserMsg() {
             try {
