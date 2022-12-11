@@ -1,39 +1,37 @@
 <template>
     <div class="grid-container">
         <div class="grid-item" v-for="q in questionList" :key="q.id">
-            
             <!-- 展示的文章列表 -->
             <el-card class="box-card" shadow="hover">
                 <el-tag type="success">{{ q.gmtCreate }}</el-tag>
-                <el-button type="text" @click="showDetails">详情</el-button>
+                <el-button type="text" @click="showDetails(q)">详情</el-button>
                 <div class="box-card-content">
                     <span class="box-card-content-title">{{ q.content }}</span>
                 </div>
             </el-card>
-
-            <!-- 展示单篇文章详情 -->
-            <el-drawer
-                title=""
-                :visible.sync="details"
-                :direction="direction"
-                :before-close="handleClose"
-                size='50%'
-                :show-close = false
-            >
-                <template slot="title">
-                    <span>{{q.content}}</span>
-                    <ul class="meta-list">
-                        <li><img src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" alt=""></li>
-                        <li>{{ q.username }}</li>
-                        <li>{{ q.gmtCreate }}</li>
-                    </ul>
-                </template>
-
-                <Comment/>
-
-            </el-drawer>
         </div>
-        
+        <!-- 展示单篇文章详情 -->
+        <el-drawer
+            :title="tempQuestion.content"
+            :visible.sync="details"
+            :direction="direction"
+            :before-close="handleClose"
+            size='50%'
+            :show-close = false
+            append-to-body
+        >
+            <template slot="title">
+                <span>{{tempQuestion.content}}</span>
+                <ul class="meta-list">
+                    <li><img src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" alt=""></li>
+                    <li>{{ tempQuestion.username }}</li>
+                    <li>{{ tempQuestion.gmtCreate }}</li>
+                </ul>
+            </template>
+
+            <Comment/>
+
+        </el-drawer>
     </div>
 </template>
 
@@ -50,7 +48,8 @@ export default {
             inputValue: '',
             direction: 'rtl',
             page: 1,
-            limit: 5
+            limit: 5,
+            tempQuestion: {}
         }
     },
     computed: {
@@ -59,7 +58,8 @@ export default {
         }),
     },
     methods: {
-        showDetails() {
+        showDetails(q) {
+            this.tempQuestion = q;
             this.details = !this.details;
         },
         handleClose(done) {
@@ -84,13 +84,11 @@ export default {
     },
     mounted() {
         this.getQuestions(this.page, this.limit);
-
 		this.$bus.$on('getFriends_PageAndLimit',this.getPageAndLimit_question);
         
     },
     beforeDestroy() {
         this.$bus.$off('getFriends_PageAndLimit');
-        
     }
 }
 </script>

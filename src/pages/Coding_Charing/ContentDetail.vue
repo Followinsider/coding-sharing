@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div class="content-detail-background">
         <Header></Header>
         <main role="main" class="container">
             <div class="row">
-                <div class="col-md-8 blog-main">
+                <article class="col-md-8 blog-main article_content">
                     <div class="blog-post">
                         <h2 class="blog-post-title">{{contentInfo.title}}</h2>
                         <p class="blog-post-meta">{{contentInfo.time}} <a href="https://github.com/Followinsider" target="_blank">{{contentInfo.name}}</a></p>
@@ -11,14 +11,10 @@
                             <el-skeleton :loading="loading"/>
                             <div v-html="pageHTML" v-show="!loading"></div>
                         </template>
-
                     </div>
-
                     <div class="divider"></div>
                     <Comment/>
-                    
-                </div>
-
+                </article>
                 <aside class="col-md-4 blog-sidebar">
                     <div class="aside_introduce">
                         <h4 class="font-italic">往期文章</h4>
@@ -139,7 +135,11 @@ export default {
 
 <style scoped>
 .divider {
-    border-bottom: 1px solid rgba(178,186,194,0.3);
+    /* border-bottom: 1px solid rgba(178,186,194,0.3); */
+    width: 120%;
+    margin-left: -5%;
+    height: 20px;
+    background-color: rgb(244, 245, 245);
 }
 .article-catalog {
     background: #fff;
@@ -187,9 +187,24 @@ export default {
 }
 .aside_introduce {
     padding: 0.5rem;
+    border: 1px solid #fff;
+    padding: 1rem 1.6rem;
+    background-color: #fff;
+    margin-bottom: 1.6rem;
 }
 .aside_content {
     position: sticky;
     top: 78px;
+}
+.row {
+    margin-top: 1.5rem;
+}
+.content-detail-background {
+    background-color: rgb(244, 245, 245);
+}
+.article_content {
+    border: 1px solid #fff;
+    padding: 1rem 1.6rem;
+    background-color: #fff;
 }
 </style>

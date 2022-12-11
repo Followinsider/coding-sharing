@@ -17,6 +17,7 @@ const actions = {
     async getQuestionList({commit},  {page, limit}) {
         let result = await questionList(page, limit);
         if (result.code == 20000) {
+            // console.log(result.data);
             commit('GETQUESTIONLIST',result.data);
         }else {
             return Promise.reject(new Error('faile'));

@@ -24,14 +24,6 @@ export default {
     name: 'Friends',
     components: { Header, ContentTag, FriendsContent, Pagination, },
     mixins: [header],
-    data() {
-        return {
-            
-        }
-    },
-    methods: {
-        
-    }
 }
 </script>
 

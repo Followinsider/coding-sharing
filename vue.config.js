@@ -13,5 +13,5 @@ module.exports = defineConfig({
       }
     }
   },
-  publicPath: '/coding-charing/',
+  // publicPath: '/coding-charing/', // 自己仓库名字
 })
