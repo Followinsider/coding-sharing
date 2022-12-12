@@ -11,7 +11,7 @@ import './assets/css/coding_charing.css'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-import {Alert, Message, Dropdown, DropdownMenu, DropdownItem, Button, Avatar, Link, Collapse, CollapseItem, Input, Select, Option, } from 'element-ui'
+import {Alert, Message, Dropdown, DropdownMenu, DropdownItem, Button, Avatar, Link, Collapse, CollapseItem, Input, Select, Option, Backtop} from 'element-ui'
 Vue.component(Alert.name,Alert)
 Vue.component(Dropdown.name,Dropdown)
 Vue.component(DropdownMenu.name,DropdownMenu)
@@ -24,6 +24,7 @@ Vue.component(CollapseItem.name,CollapseItem)
 Vue.component(Input.name,Input)
 Vue.component(Select.name,Select)
 Vue.component(Option.name,Option)
+Vue.use(Backtop.name,Backtop)
 
 Vue.prototype.$message = Message
 
@@ -34,7 +35,6 @@ import store from '@/store';
 
 // 引入第三方icon
 // import "./assets/icon/iconfont.css";
-
 
 new Vue({
   render: h => h(App),

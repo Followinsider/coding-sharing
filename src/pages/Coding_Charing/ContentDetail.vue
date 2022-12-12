@@ -1,6 +1,6 @@
 <template>
-    <div class="content-detail-background">
-        <Header></Header>
+    <div class="content-detail-background" @scroll="handleScroll">
+        <Header :isMoveDown="isMoveDown"></Header>
         <main role="main" class="container">
             <div class="row">
                 <article class="col-md-8 blog-main article_content">
@@ -34,16 +34,16 @@
                     </div>
 
                     <!-- 后续 粘滞效果 需要再完善 -->
-                    <div class="aside_content">
-                        <nav class="article-catalog">
+                    <div class="aside_content" >
+                        <nav class="article-catalog" ref="nav">
                             <div class="catalog-title">
                                 目录
                             </div>
                             <div class="catalog-body">
-                                <ul>
+                                <ul id="handleScroll" ref="navUl">
                                     <li
-                                        :class="{active: activeIndex === index ?  true : false, 'item': true}" 
                                         v-for="(i, index) in contentList" 
+                                        :class="{active: activeIndex === index ?  true : false, 'item': true}" 
                                         :key="index" 
                                         :title="i.content" 
                                         @click="jump(index)"
@@ -56,10 +56,10 @@
                             </div>
                         </nav>
                     </div>
-
                 </aside>
             </div>
         </main>
+        <el-backtop target=".content-detail-background"></el-backtop>
     </div>
 </template>
 
@@ -67,20 +67,25 @@
 import Header from '../../components/Header.vue';
 import Comment from '../../components/Comment.vue';
 import {mavonEditor} from 'mavon-editor';
-
+// import { marked } from 'marked';
+import header from '@/mixin/header';
 export default {
     name: "ContentDetail",
     data() {
         return {
             pageHTML: '',
             contentList: [],
-            activeIndex: 1,
+            activeIndex: 0,
             contentInfo: JSON.parse(localStorage.getItem('contentInfo')),
-            loading: true
+            loading: true,
+            hTagHeight: [],
+            oldScrollValueIndex: 0
         }
     },
     components: {Header, Comment},
+    mixins: [header],
     methods: {
+        // 获取文章内容
         async getBlogContent() {
             try {
                 let result = await this.$store.dispatch('getBlogContent',this.$route.query.id);
@@ -99,6 +104,7 @@ export default {
 				console.log(error);
 			}
 		},
+        // 获取文章目录
         content() {
             const toc = this.pageHTML.match(/<(h[1-6]).*?\>.*?<\/[hH][1-6]>/g);
             if (toc) {
@@ -110,26 +116,81 @@ export default {
                     let data = item.match(/^<[Hh](\d).*?><a.*?><\/a>(.*?)</);
                     return { id: data[1], content: data[2] };
                 });
+                this.$nextTick(()=> {
+                    this.getHtagHeight();
+                });
+
             }
+            
         },
         size(num) {
-            return num * 10 + "px";
+            return num * 16 + "px";
         },
         jump(index) {
             this.activeIndex = index;
             let target = document.getElementById(index).offsetTop;
             if (target) {
-                window.scrollTo({
-                    top: target - 80,
+                document.getElementsByClassName('content-detail-background')[0].scrollTo({
+                    top: target + 30,
                 });
             }
         },
+
+        getHtagHeight() {
+            let tag = document.querySelectorAll(".jump-site");
+            let arr = [];
+            for (let i = 0; i < tag.length; i++) {
+                arr.push(tag[i].offsetTop);
+            }
+            this.hTagHeight = arr;
+        },
+
+        getNavLi() {
+            if (this.oldScrollValueIndex == this.activeIndex) return;
+            let difference = this.activeIndex - this.oldScrollValueIndex;
+            let mid = this.$refs.navUl.clientHeight / 6;
+            let offsetTop = this.$refs.navUl.children[this.activeIndex].offsetTop;
+
+            if (offsetTop > mid) {
+                this.$refs.nav.scrollBy({
+                    left: 0,
+                    top: 44 * difference,
+                    behavior: "smooth"
+                });
+            }
+            if (this.activeIndex === 0) {
+                this.$refs.nav.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                })
+            }
+            this.oldScrollValueIndex = this.activeIndex;
+        }
+
+        
     },
     mounted() {
         this.view();
         this.getBlogContent();
     },
-
+    watch: {
+        oldScrollTop: {
+            handler(newValue) {
+                this.getNavLi()
+                if (this.hTagHeight[0] > newValue) {
+                    return (this.activeIndex = 0);
+                }else if (this.hTagHeight[this.hTagHeight.length - 1] < newValue) {
+                    return (this.activeIndex = this.hTagHeight.length - 1);
+                }
+                for (let i = 0; i < this.hTagHeight.length - 1; i++) {
+                    if (this.hTagHeight[i] < newValue && this.hTagHeight[i + 1] > newValue) {
+                        return (this.activeIndex = i);
+                    }
+                }   
+            },
+            immediatie: true,
+        }
+    }
 }
 </script>
 
@@ -152,7 +213,7 @@ export default {
     font-weight: 500;
     padding: 1.333rem 0;
     margin: 0 1.667rem;
-    font-size: 16px;
+    font-size: 1.6rem;
     line-height: 2rem;
     color: #1d2129;
     border-bottom: 1px solid #e4e6eb;
@@ -177,7 +238,9 @@ export default {
     list-style: none;
     display: inline=block;
 }
-
+.item {
+    padding: 10px;
+}
 .item:hover {
     cursor: pointer;
     background-color: rgb(247, 248, 250);
@@ -185,6 +248,7 @@ export default {
 .active {
     color: #007bff;
 }
+
 .aside_introduce {
     padding: 0.5rem;
     border: 1px solid #fff;
@@ -201,6 +265,8 @@ export default {
 }
 .content-detail-background {
     background-color: rgb(244, 245, 245);
+    height: 100vh;
+    overflow: auto;
 }
 .article_content {
     border: 1px solid #fff;
