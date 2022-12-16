@@ -104,6 +104,7 @@ export default {
             object.title = this.title;
             object.ttags = this.ttags.filter(item => item.name == this.tags);
             object.userId = this.userId;
+            console.log(object);
             return object;
         },
         clearData() {

@@ -2,20 +2,14 @@
     <div :class="{'view-nav':isMoveDown,'top':!isMoveDown,'container':true}">
         <div class="nav-scroller py-1 mb-2">
             <nav class="nav d-flex justify-content-between">
-                <!-- <a class="p-2 text-muted" href="javascript:void(0)" v-show="isFriends">我来分享</a> -->
-                <a class="p-2 text-muted" href="javascript:void(0)">综合</a>
-                <a class="p-2 text-muted" href="javascript:void(0)">前端</a>
-                <a class="p-2 text-muted" href="javascript:void(0)">后端</a>
-                <a class="p-2 text-muted" href="javascript:void(0)">移动端</a>
-                <a class="p-2 text-muted" href="javascript:void(0)">算法</a>
-                <a class="p-2 text-muted" href="javascript:void(0)">UI设计</a>
-                <a class="p-2 text-muted" href="javascript:void(0)">校内课程</a>
+                <el-link class="tag" v-for="t in ttags" :key="t.id" @click="getTagBlog(t.id)">{{t.name}}</el-link>
             </nav>
         </div>
     </div>
 </template>
 
 <script>
+import {mapState} from 'vuex';
 export default {
     name: "ContentTag",
     props: {
@@ -24,19 +18,31 @@ export default {
             default: false
         }
     },
-    data() {
-        return {
-            
-        }
-    },
     computed: {
-        // isFriends() {
-        //     return this.$route.name === 'Friends'? true : false;
-        // }
+        ...mapState({
+            ttags: state => state.article.tagList,
+        })
+    },
+    mounted() {
+        this.$store.dispatch('getTag')
+    },
+    methods: {
+        async getTagBlog(id) {
+            try {
+                this.$router.push({name: 'Coding-Charing', query: {id}})
+				await this.$store.dispatch('getTagBlog', {page: 1, limit: 5, id});
+			}catch (error) {
+				this.$message.error(error);
+			}
+        }
     }
 }
 </script>
 
-<style>
+<style scoped>
+.tag {
+	line-height: 40px;
+    font-size: 1.1rem;
+}
 
 </style>

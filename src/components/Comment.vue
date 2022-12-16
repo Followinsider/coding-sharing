@@ -80,7 +80,8 @@
     </div>
 </template>
 <script>
-import {comments} from '../../mock';
+import { comments } from '../../mock';
+// import { mapState } from 'vuex';
 const clickoutside = {
     // 初始化指令
     bind(el, binding, vnode) {
@@ -119,12 +120,12 @@ export default {
             myName:'Lcx',
             myHeader:'https://ae01.alicdn.com/kf/Hd60a3f7c06fd47ae85624badd32ce54dv.jpg',
             myId:19870621,
-            to:'',
+            // to:'',
             toId:-1,
             comments: comments
+
         }
     },
-    
     methods: {
         inputFocus(){
             this.$refs.replyInput.style.padding= "8px 8px"

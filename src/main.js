@@ -35,7 +35,8 @@ import store from '@/store';
 
 // 引入第三方icon
 // import "./assets/icon/iconfont.css";
-
+// import 'amfe-flexible'
+// import "amfe-flexible/index.js";
 new Vue({
   render: h => h(App),
   router,

@@ -110,3 +110,11 @@ export const askQuestion = (obj) => {
         data: obj
     })
 }
+
+// 获取特定标签的博客
+export const getTagBlog = (page, limit, id)=>{
+    return requests({
+        url: `/blog/tag/tagblog/${page}/${limit}/${id}`,
+        method: 'get',
+    })
+}

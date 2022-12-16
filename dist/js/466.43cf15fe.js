@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkcoding_charing"]=self["webpackChunkcoding_charing"]||[]).push([[466],{4466:function(n,c,r){r.r(c),r.d(c,{default:function(){return i}});var t=function(){var n=this,c=n._self._c;return c("div",[c("el-col",{attrs:{span:8}},[c("el-card",{attrs:{shadow:"hover"}},[n._v(" 欢迎！ ")])],1)],1)},e=[],a={},s=a,u=r(1001),l=(0,u.Z)(s,t,e,!1,null,"628c4fc6",null),i=l.exports}}]);
+//# sourceMappingURL=466.43cf15fe.js.map

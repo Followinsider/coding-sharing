@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<nav>
-			<ul class="tag">
+			<ul class="tag" v-if="articleList.length > 0">
 				<li><span @click="pushTag($event)" :class="{tag_span: active1 }">推荐</span></li>
 				<li><span @click="pushTag($event)" :class="{tag_span: active2 }">最新</span></li>
 				<li><span @click="pushTag($event)" :class="{tag_span: active3 }">最热</span></li>
@@ -9,8 +9,8 @@
 		</nav>
 		<div>
 			<div class="container-content">	
-				<ul class="content-box">
-					<li class="content-list" v-for="a in articleList.items" :key="a.id">
+				<ul class="content-box" v-if="articleList.length > 0"> <!-- v-infinite-scroll="load" infinite-scroll-delay="200" -->
+					<li class="content-list" v-for="(a,index) in articleList" :key="index">
 						<div class="info-box">
 							<div class="info-row meta-row">
 								<ul class="meta-list">
@@ -49,7 +49,10 @@
 						</div>
 					</li>
 				</ul>
-				
+				<div class="empty" v-else>
+					<!-- <img src="../../assets/logo.png" alt=""> -->
+					<el-empty :image-size="200"></el-empty>
+				</div>
 				<div class="aside">
 					<h3>相关网址推荐</h3>
 					<el-collapse >
@@ -98,6 +101,7 @@
 			</div>
 		</div>			
 	</div>
+	
 </template>
 
 <script>
@@ -113,14 +117,14 @@ export default {
 			},
 			page: 1,
 			limit: 5,
-			active1: false,
+			active1: true,
 			active2: false,
 			active3: false,
 		}
 	},
 	computed: {
 		...mapState({
-            articleList: state => state.article.articleList,
+            articleList: state => state.article.articleList.items,
         }),
 	}
 	,
@@ -132,6 +136,14 @@ export default {
 				this.$message.error(error);
 			}
 		},
+		async getTagBlog(page, limit ,id) {
+            try {
+                this.$router.push({name: 'Coding-Charing', query: {id}})
+				await this.$store.dispatch('getTagBlog', {page, limit, id});
+			}catch (error) {
+				this.$message.error(error);
+			}
+        },
 		pushTag(e) {
 			this.clearFlag();
 			if (e.target.innerText === '推荐') {
@@ -144,6 +156,7 @@ export default {
 				this.tagParams.view = e.target.innerText;
 				this.active3 = true;
 			}
+
 			this.getArticleList(this.page, this.limit, this.tagParams);
 
 		},
@@ -169,16 +182,23 @@ export default {
 		getPageAndLimit(page,limit) {
 			this.page = page;
 			this.limit = limit;
-			this.getArticleList(this.page, this.limit, this.tagParams);
+			
+			if (this.$route.query.id) {
+				this.getTagBlog(this.page, this.limit, this.$route.query.id);
+			}else {
+				this.getArticleList(this.page, this.limit, this.tagParams);
+			}
+			
 		},
+		
 		jumpToContentDetail(a) {
 			localStorage.setItem('contentInfo', JSON.stringify({name: a.username, time: a.gmtCreate, title: a.title}));
 			this.$router.push({name: 'ContentDetail', query: {id: a.id}});
-		}
+		},
+
     },
 	mounted() {
 		this.getArticleList(this.page, this.limit, this.tagParams);
-
 		this.$bus.$on('getCodingCharing_PageAndLimit',this.getPageAndLimit);
 	},
 	beforeDestroy() {
@@ -220,6 +240,13 @@ export default {
 .info-title:hover{
 	cursor: pointer;
 	text-decoration: underline;
+}
+
+.empty {
+	width: 743px;
+	height: 753px;
+	display: flex;
+	justify-content: center;
 }
 </style>
 

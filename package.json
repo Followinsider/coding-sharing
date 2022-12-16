@@ -15,6 +15,7 @@
     "mavon-editor": "^2.10.4",
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
+    "postcss-plugin-px2rem": "^0.8.1",
     "simplemde": "^1.11.2",
     "stylus": "^0.59.0",
     "stylus-loader": "^7.1.0",
@@ -30,9 +31,13 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "amfe-flexible": "^2.2.1",
+    "autoprefixer": "^10.4.13",
     "babel-plugin-component": "^1.1.1",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "postcss-loader": "^3.0.0",
+    "postcss-pxtorem": "^5.1.1",
     "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {

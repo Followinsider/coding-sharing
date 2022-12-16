@@ -156,9 +156,6 @@ ul {
 }
 
 
-.text-muted {
-	line-height: 40px;
-}
 
 .row {
 	margin: 0;

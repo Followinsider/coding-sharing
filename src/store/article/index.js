@@ -1,7 +1,7 @@
-import {reqArticleList, publishBlog, reqTag, starBlog, viewBlog, reqArticle, saveBlog, } from '@/api';
+import {reqArticleList, publishBlog, reqTag, starBlog, viewBlog, reqArticle, saveBlog, getTagBlog} from '@/api';
 
 const state = {
-    articleList: [],
+    articleList: {},
     tagList: [],
 };
 
@@ -71,6 +71,15 @@ const actions = {
         let result = await reqArticle(id);
         if (result.code === 20000) {
             return result.data;
+        }else {
+            return Promise.reject(new Error('faile'));
+        }
+    },
+
+    async getTagBlog({commit},{page, limit, id}) {
+        let result = await getTagBlog(page, limit, id);
+        if (result.code === 20000) {
+            commit('GETARTICLELIST',result.data)
         }else {
             return Promise.reject(new Error('faile'));
         }

@@ -22,10 +22,11 @@ let router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     
-    if (to.path !== from.path) {
+    if (!to.query.id &&  to.path !== from.path) {
         nprogress.start()
         next()
     }
+    next()
 })
 
 router.afterEach(()=> {
