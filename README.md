@@ -1,24 +1,29 @@
 # coding-charing
 
-## Project setup
+## :link: 安装依赖(Project setup)
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+## :beginner: 项目启动(Compiles and hot-reloads for development)
+
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+## :package: 构建打包(Compiles and minifies for production)
+
 ```
 npm run build
 ```
 
-### Lints and fixes files
+## :heavy_check_mark: 检查和修复文件(Lints and fixes files)
+
 ```
 npm run lint
 ```
 
-### Customize configuration
+## :bulb: 自定义配置(Customize configuration)
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
