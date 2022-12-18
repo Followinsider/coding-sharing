@@ -3,7 +3,7 @@
 ## :books: 前端仓库地址(Front-end)
 
 ~~~
-https://github.com/Followinsider/coding-charing
+https://github.com/Followinsider/coding-sharing
 ~~~
 
 ## :books:后端仓库地址(Back-end)
